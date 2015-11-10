@@ -1,12 +1,20 @@
+#
+# Consul Service Discovery
+# @see https://www.consul.io/docs/agent/options.html
+#
 consul:
   command: -server -bootstrap
   image: progrium/consul:latest
   ports:
-    - "8400:8400"
-    - "8500:8500"
-    - "8600:53/udp"
-    - "192.168.99.101:53:53/udp"
+    - 8400:8400  # rpc/rest
+    - 8500:8500  # ui
+    - 8600:53/udp   # dns
+    - 192.168.99.101:53:53/udp  # dns
 
+#
+# Registrator Service Registry Bridge
+# @see http://gliderlabs.com/registrator/latest/
+#
 registrator:
   command: -ip=192.168.99.101 consul://consul:8500
   image: gliderlabs/registrator:latest
