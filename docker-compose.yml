@@ -15,16 +15,28 @@ registrator:
   links:
     - consul
 
-microservice:
-  build: microservice
+nginx:
+  build: ./nginx
+  links:
+    - consul
+  ports:
+    - 80
+  volumes:
+    - ./nginx/templates:/etc/consul-templates
+  environment:
+    SERVICE_NAME: nginx
+
+service:
+  build: service
   ports:
     - 5000
   volumes:
-    - ./microservice:/code
+    - ./service:/code
   links:
     - redis
   environment:
-    SERVICE_NAME: microservice
+    SERVICE_NAME: service
+    SERVICE_TAGS: production
 
 redis:
   image: redis
