@@ -32,11 +32,16 @@ service:
     - 5000
   volumes:
     - ./service:/code
-  links:
-    - redis
+  dns:
+    - 192.168.99.101
+  dns_search: service.consul
   environment:
     SERVICE_NAME: service
     SERVICE_TAGS: production
 
 redis:
   image: redis
+  ports:
+    - 6379:6379
+  environment:
+    SERVICE_NAME: redis
