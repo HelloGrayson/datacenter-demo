@@ -1,3 +1,20 @@
+consul:
+  command: -server -bootstrap
+  image: progrium/consul:latest
+  ports:
+    - "8400:8400"
+    - "8500:8500"
+    - "8600:53/udp"
+    - "192.168.99.101:53:53/udp"
+
+registrator:
+  command: -ip=192.168.99.101 consul://consul:8500
+  image: gliderlabs/registrator:latest
+  volumes:
+    - "/var/run/docker.sock:/tmp/docker.sock"
+  links:
+    - consul
+
 web:
   build: .
   ports:
@@ -6,5 +23,8 @@ web:
    - .:/code
   links:
    - redis
+  environment:
+    SERVICE_NAME: web
+
 redis:
   image: redis
