@@ -45,7 +45,7 @@ service:
   dns_search: service.consul
   environment:
     SERVICE_NAME: service
-    SERVICE_TAGS: production
+    SERVICE_TAGS: route-http
 
 redis:
   image: redis
