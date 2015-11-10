@@ -1,5 +1,6 @@
 #
-# Consul Service Discovery
+# Consul Service Discovery, ~50mb
+# @see https://hub.docker.com/r/progrium/consul/
 # @see https://www.consul.io/docs/agent/options.html
 #
 consul:
@@ -13,6 +14,7 @@ consul:
 
 #
 # Registrator Service Registry Bridge
+# @see https://hub.docker.com/r/gliderlabs/registrator/
 # @see http://gliderlabs.com/registrator/latest/
 #
 registrator:
@@ -23,6 +25,10 @@ registrator:
   links:
     - consul
 
+#
+# Nginx with Consul Template Support, ~40mb
+# @see https://hub.docker.com/r/1science/nginx/
+#
 nginx:
   build: ./nginx
   links:
@@ -34,6 +40,10 @@ nginx:
   environment:
     SERVICE_NAME: nginx
 
+#
+# A Micoservice with DNS pointing towards Consul
+# That gets HTTP traffic from Nginx by route-http tag
+#
 service:
   build: service
   ports:
@@ -47,6 +57,10 @@ service:
     SERVICE_NAME: service
     SERVICE_TAGS: route-http
 
+#
+# A Statically-provisioned Redis
+# @see https://hub.docker.com/_/redis/
+#
 redis:
   image: redis
   ports:
