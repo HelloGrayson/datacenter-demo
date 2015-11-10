@@ -15,16 +15,16 @@ registrator:
   links:
     - consul
 
-web:
-  build: .
+microservice:
+  build: microservice
   ports:
-   - 5000
+    - 5000
   volumes:
-   - .:/code
+    - ./microservice:/code
   links:
-   - redis
+    - redis
   environment:
-    SERVICE_NAME: web
+    SERVICE_NAME: microservice
 
 redis:
   image: redis
